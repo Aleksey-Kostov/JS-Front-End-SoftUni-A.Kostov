@@ -7,17 +7,30 @@ function solve(wordsInput, template) {
         if (template[i] === '*') {
             if (startIndex < 0) {
                 startIndex = i
-                endIndex = 1
+                endIndex = i + 1
             } else {
-                endIndex = i
+                endIndex = i + 1
             }
         } else {
             if (startIndex >= 0) {
-                let length = endIndex - startIndex;
+                let length = endIndex - startIndex
+                let word = words.find(w => w.length === length)
+
+                template = template.replace('*'.repeat(length), word)
+                // template = template.substring(0, startIndex) + word + template.substring(endIndex)
                 startIndex = -1
                 endIndex = -1
             } 
         }
     }
+    if (startIndex >= 0) {
+        let length = endIndex - startIndex
+        let word = words.find(w => w.length === length)
+
+        template = template.replace('*'.repeat(length), word)
+        
+    } 
+
+    console.log(template);
     
 }
