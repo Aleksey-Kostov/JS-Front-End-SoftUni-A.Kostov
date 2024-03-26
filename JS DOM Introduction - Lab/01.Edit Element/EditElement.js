@@ -1,6 +1,7 @@
-function editElement() {
-    getText = document.getElementById('e1')
-    // result = document.querySelector(button)
-
-    console.log(getText);
+function editElement(element, match, replacer) {
+    
+    while (element.textContent.includes(match)) {
+        element.textContent = element.textContent.replace(match, replacer)
+    }
+    
 }
