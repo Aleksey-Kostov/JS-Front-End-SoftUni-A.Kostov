@@ -16,6 +16,6 @@ function create(words, event) {
          return divElement;
       });
 
-   divElements.forEach(divElement => contentElement.appendChild(divElement)); // Not efficient 
+   divElements.forEach(divElement => contentElement.appendChild(divElement));
    
 }
