@@ -8,9 +8,9 @@ function encodeAndDecodeMessages() {
     let textForEncoding = ''
     let textForDecoding = ''
 
-    // textareaInputElement.addEventListener('click', (e) => {
-    //     textareaOutputElement.value = ''
-    // })
+    textareaInputElement.addEventListener('click', (e) => {
+        textareaOutputElement.value = ''
+    })
 
     buttonEncodeElement.addEventListener('click', (e) => {
         textForEncoding = ''
@@ -27,7 +27,7 @@ function encodeAndDecodeMessages() {
 
     buttonDecodeElement.addEventListener('click', (e) => {
         textForDecoding = ''
-        
+
         let textContent = textareaOutputElement.value
         for (let i = 0; i < textContent.length; i++) {
             textForDecoding += String.fromCharCode(textContent.charCodeAt(i) - 1)
