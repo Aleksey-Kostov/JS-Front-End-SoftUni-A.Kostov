@@ -1,119 +1,63 @@
 function lockedProfile() {
-    const profileAPI = 'http://localhost:3030/jsonstore/advanced/profiles'
-    const main = document.querySelector('#main')
-    main.innerHTML = ''
+    const BASE_URL = 'http://localhost:3030/jsonstore/advanced/profiles/';
+    const main = document.getElementById('main');
 
-    const toggleHiddenFields = (btnText, style, e) => {
-        const hiddenFields = e.parentElement.querySelector('#user1HiddenFields')
-        hiddenFields.style.display = style
-        e.textContent = btnText
+    fetch(BASE_URL)
+        .then((res) => res.json())
+        .then(display);
+
+    function display(data) {
+        main.innerHTML = '';
+        let num = 1;
+        Object.values(data).forEach(profile => {
+            createCard(profile, num);
+            num ++
+        });
+
+        const allButtons = Array.from(document.querySelectorAll('button'));
+        allButtons.forEach((btn) => {
+            btn.addEventListener('click', checkLock);
+        })
     }
 
-    const btnShow = (e) => {
-        const parentElement = e.parentElement
-        const unlock = parentElement.querySelector('input[value="unlock"]')
+    function createCard(profile, num) {
+        main.innerHTML += `<div class="profile">
+                                <img src="./iconProfile2.png" class="userIcon" />
+                                <label>Lock</label>
+                                <input type="radio" name="user${num}Locked" value="lock" checked>
+                                <label>Unlock</label>
+                                <input type="radio" name="user${num}Locked" value="unlock"><br>
+                                <hr>
+                                <label>Username</label>
+                                <input type="text" name="user${num}Username" value="${profile.username}" disabled readonly />
+                                <div class="hiddenInfo" id="user${num}HiddenFields">
+                                    <hr>
+                                    <label>Email:</label>
+                                    <input type="email" name="user${num}Email" value="${profile.email}" disabled readonly />
+                                    <label>Age:</label>
+                                    <input type="email" name="user${num}Age" value="${profile.age}" disabled readonly />
+                                </div>
+                                <button>Show more</button>
+                            </div>`
+    }
 
+    function checkLock(e) {
+        let button = e.currentTarget;
+        let unlock = this.parentNode.querySelector('input[value="unlock"]');
+        let hiddenInputs = Array.from(this.parentNode.querySelectorAll(".hiddenInfo > input"));
+        let hiddenLabels = Array.from(this.parentNode.querySelectorAll(".hiddenInfo > label"));
 
-        if (unlock.checked && e.textContent === 'Show more') {
-            toggleHiddenFields('Hide it', 'inline-block', e)
-        } else if (unlock.checked) {
-            toggleHiddenFields('Show more', 'none', e)
+        if(unlock.checked && button.textContent === 'Show more') {
+            hiddenInputs.forEach((el) => el.style.display = 'block');
+            hiddenLabels.forEach((el) => el.style.display = 'block');
+            this.textContent = 'Hide it';
+        }
+
+        else if(unlock.checked && button.textContent === 'Hide it') {
+            hiddenInputs.forEach((el) => el.style.display = 'none');
+            hiddenLabels.forEach((el) => el.style.display = 'none');
+            this.textContent = 'Show more';
         }
     }
 
-    fetch(profileAPI).then(x => x.json())
-        .then(o => {
-            Object.values(o).forEach(x => {
-                main.innerHTML += `
-            <div class="profile">
-                <img src="./iconProfile2.png" class="userIcon" alt="prifile pic"/>
-                <label>Lock</label>
-                <input type="radio" name="user1Locked" value="lock" checked>
-                <label>Unlock</label>
-                <input type="radio" name="user1Locked" value="unlock"><br>
-                <hr>
-                <label>Username</label>
-                <input type="text" name="user1Username" value="${x.username}" disabled readonly />
-                <div id="user1HiddenFields" style="display: none">
-                    <hr>
-                    <label>Email:</label>
-                    <input type="email" name="user1Email" value="${x.email}" disabled readonly />
-                    <label>Age:</label>
-                    <input type="email" name="user1Age" value="${x.age}" disabled readonly />
-                </div>
-            <button onclick="funcJS.btnShow(this)">Show more</button>
-            </div>`
-            })
-        })
-
-    return {
-        btnShow
-    }
 }
-
-const funcJS = lockedProfile()
-
-
-
-
-
-
-
-
-
-
-
-
-// async function lockedProfile() {
-//     const API_URL = 'http://localhost:3030/jsonstore/advanced/profiles'
-//     const profile = document.querySelector('.profile')
-//     const main = document.querySelector('#main')
-//
-//     const loadDataFromApi = async () => {
-//         const data = await fetch(API_URL)
-//         return await data.json()
-//     }
-//
-//     const showMoreBtnFunctionality = () => {
-//         const e = event.target.parentElement
-//
-//         const [lockCheck, unlockCheck] = e.querySelectorAll('input[type="radio"]')
-//         const showIndo = e.querySelector('.user1Username')
-//
-//         if (unlockCheck.checked) {
-//
-//             showIndo.style.display = 'inline-block'
-//             event.target.textContent = 'Hide it'
-//         } else  {
-//             showIndo.style.display = 'none'
-//             event.target.textContent = 'Show more'
-//         }
-//     }
-//
-//     const createHtmlElement2 = (data) => {
-//         const copyElement = profile.cloneNode(true)
-//         const [name, email, age] = Array.from(copyElement.querySelectorAll('input')).slice(2)
-//         const showIndo = copyElement.querySelector('.user1Username')
-//
-//
-//         name.value = data.username
-//         email.value = data.email
-//         age.value = data.age
-//         showIndo.style.display = 'none'
-//
-//         const showMoreBtn = copyElement.querySelector('button')
-//         showMoreBtn.addEventListener('click', showMoreBtnFunctionality)
-//
-//
-//         return copyElement
-//     }
-//
-//     const loadDataToHTML = async (data) => {
-//         main.innerHTML = ''
-//
-//         for (const key in data) {
-//             main.appendChild(await createHtmlElement2(data[key]))
-//         }
-//     }
-//     await loadDataToHTML(await loadDataFromApi())
-// }
