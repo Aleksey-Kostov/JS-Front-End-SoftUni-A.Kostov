@@ -1,27 +1,62 @@
-function solve() {
-  const API_URL = 'http://localhost:3030/data/furniture' // get
-  const API_REGISTER_USER = 'http://localhost:3030/users/register' // post
-  const API_LOGIN_USER = 'http://localhost:3030/users/login' // login
+async function solution() {
+  const BASE_URL = 'http://localhost:3030/jsonstore/advanced/articles/list';
+  let main = document.getElementById('main');
 
-  const [eMail, password, repeat] = document.querySelectorAll('form[action="/register"] label')
-  const [register, login] = document.querySelectorAll('#exercise button')
+  let response = await fetch(BASE_URL);
+  let data = await response.json();
 
-  const logingAuto = () => {
+  for (let obj of data) {
+      let id = obj._id;
+      let URL = `http://localhost:3030/jsonstore/advanced/articles/details/${id}`;
 
+      fetch(URL)
+          .then((res) => res.json())
+          .then((data) => {
+              let divAccordion = document.createElement('div');
+              divAccordion.className = 'accordion';
+
+              let divHead = document.createElement('div');
+              divHead.className = 'head';
+              let span = document.createElement('span')
+              span.textContent = data.title;
+              let btn = document.createElement('button');
+              btn.className = 'button';
+              btn.setAttribute('id', `$[id]`);
+              btn.textContent = 'More';
+              divHead.appendChild(span);
+              divHead.appendChild(btn);
+
+              let divExtra = document.createElement('div');
+              divExtra.className = 'extra'
+              let p = document.createElement('p');
+              p.textContent = data.content;
+              divExtra.appendChild(p);
+
+              divAccordion.appendChild(divHead);
+              divAccordion.appendChild(divExtra);
+
+              main.appendChild(divAccordion);
+
+              btn.addEventListener('click', more);
+
+          })
   }
 
-  const registerFunctionality = () => {
-      console.log('register')
+  function more() {
+      const divHidden = this.parentNode.parentNode.querySelector('.extra');
+
+      if(this.textContent === 'Less') {
+          divHidden.style.display =  'none';
+          this.textContent = 'More';
+      }
+
+      else {
+          divHidden.style.display = 'block';
+          this.textContent = 'Less';
+      }
   }
-
-  const loginFunctionality = () => {
-      event.preventDefault()
-      console.log('login')
-  }
-
-  register.addEventListener('click', registerFunctionality)
-  login.addEventListener('click', loginFunctionality)
-
-
 
 }
+
+
+solution();
