@@ -1,42 +1,55 @@
 function solve(input) {
     const num = Number(input.shift())
-    let persons = []
+    let persons = {}
 
     for (let i = 0; i < num; i++) {
         const [baristaName, shift, coffee] = input.shift().split(' ')
-        const person = {
-           name: baristaName,
+        persons[baristaName] = {
             shift,
-            coffee: coffee.split(','),
+            coffee: coffee.split(',')
         }
-
-        persons.push(person)
 
     }
 
     for (let i = 0; i < input.length; i++) {
-        const line = input[i].split(' / ')
-        const command = line[0]
+
+        let [command, currentBarista, currentshift, currentCoffe] = input[i].split(' / ')
+
+        let barista = persons[currentBarista]
 
         if (command === 'Prepare') {
-            let currentBarista = line[1]
-            let currentshift = line[2]
-            let currentCoffe = line[3]
+          
 
-            for (obj of persons) {
-                if (obj.name === currentBarista && obj.shift === currentshift && obj.coffee.includes(currentCoffe) ) {
-                    console.log(`${currentBarista} has prepared a ${currentCoffe} for you!`);
-                } else {
-                    console.log(`${currentBarista} is not available to prepare a ${currentCoffe}.`);
-                }
+            if (barista.shift === currentshift && barista.coffee.includes(currentCoffe)) {
+                console.log(`${currentBarista} has prepared a ${currentCoffe} for you!`);
+            } else {
+                console.log(`${currentBarista} is not available to prepare a ${currentCoffe}.`);5
             }
 
+            // for (obj in persons) {
+            //     if (obj.name === currentBarista && obj.shift === currentshift && obj.coffee.includes(currentCoffe)) {
+            //         console.log(`${currentBarista} has prepared a ${currentCoffe} for you!`);
+            //         break
+            //     }else {
+            //         console.log(`${currentBarista} is not available to prepare a ${currentCoffe}.`);
+            //         break
+            //     }
+            // }
+
         }else if (command === 'Change Shift'){
+            
+            barista.shift = currentshift
+            console.log(`${currentBarista} has updated his shift to: ${currentshift}`);
+
 
         }else if (command === 'Learn'){
-
+            if (barista.coffee.includes(currentCoffe)) {
+                console.log(`${currentBarista} knows how to make ${currentCoffe}.`)
+            } else {
+                console.log(`${currentBarista} has learned a new coffee type: ${currentCoffe}.`);
+            }
         }else if (command === 'Closed') {
-
+            return
         }
         
     }
@@ -60,19 +73,19 @@ solve([
     )
 
 
-solve(['4',
-'Alice day Espresso,Cappuccino',
-'Bob night Latte,Mocha',
-'Carol day Americano,Mocha',
-'David night Espresso',
-'Prepare / Alice / day / Espresso',
-'Change Shift / Bob / day',
-'Learn / Carol / Latte',
-'Prepare / Bob / night / Latte',
-'Learn / David / Cappuccino',
-'Prepare / Carol / day / Cappuccino',
-'Change Shift / Alice / night',
- 'Learn / Bob / Mocha',
-'Prepare / David / night / Espresso',
-'Closed']
-)
+// solve(['4',
+// 'Alice day Espresso,Cappuccino',
+// 'Bob night Latte,Mocha',
+// 'Carol day Americano,Mocha',
+// 'David night Espresso',
+// 'Prepare / Alice / day / Espresso',
+// 'Change Shift / Bob / day',
+// 'Learn / Carol / Latte',
+// 'Prepare / Bob / night / Latte',
+// 'Learn / David / Cappuccino',
+// 'Prepare / Carol / day / Cappuccino',
+// 'Change Shift / Alice / night',
+//  'Learn / Bob / Mocha',
+// 'Prepare / David / night / Espresso',
+// 'Closed']
+// )
