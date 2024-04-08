@@ -1,6 +1,7 @@
 function solve(arr) {
-    let fullArr = Array.from(arr.shift())
-    let formatedElements = ''
+    let formatedElements = arr.shift()
+    let fullArr = Array.from(formatedElements)
+    
     
     for (let i = 0; i < arr.length; i++) {
         if (arr[i] === 'TakeEven') {
@@ -11,22 +12,24 @@ function solve(arr) {
                 }
             }
             console.log(formatedElements);
-            fullArr = formatedElements
+            fullArr = Array.from(formatedElements)
 
         } else if (arr[i].includes('ChangeAll?')){
             [command, subString, replacement] = arr[i].split('?')
-            formatedElements = formatedElements.replace(subString, replacement)
+            formatedElements = formatedElements
+                .split(subString)
+                .join(replacement)
             console.log(formatedElements);
-            fullArr = formatedElements
+            fullArr = Array.from(formatedElements)
 
         } else if (arr[i].includes('Reverse?')) {
-            [command, subString] = arr[i].split('?')
-            if (formatedElements.includes(subString)) {
-                formatedElements = formatedElements.replace(subString, '')
-                subString = subString.split("").reduce((acc, char) => char + acc, "");
-                formatedElements += subString
+            [command, string] = arr[i].split('?')
+            if (formatedElements.includes(string)) {
+                formatedElements = formatedElements.replace(string, '')
+                string = string.split("").reduce((acc, char) => char + acc, "");
+                formatedElements += string
                 console.log(formatedElements);
-                fullArr = formatedElements
+                fullArr = Array.from(formatedElements)
             }else {
                 console.log('error');
 
@@ -34,6 +37,7 @@ function solve(arr) {
 
         } else if (arr[i] === 'Buy'){
             console.log(`The cryptocurrency is: ${formatedElements}`);
+            return
         }
     }
 }
