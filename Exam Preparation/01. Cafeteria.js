@@ -13,6 +13,16 @@ function solve(input) {
     }
 
     for (let i = 0; i < input.length; i++) {
+        command = input[i].shift().split(' / ').command[0]
+        if (command === 'Prepare') {
+
+        }else if (command === 'Change Shift'){
+
+        }else if (command === 'Learn'){
+
+        }else if (command === 'Closed') {
+
+        }
         
     }
 
