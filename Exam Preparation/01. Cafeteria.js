@@ -1,13 +1,13 @@
 function solve(input) {
     const num = Number(input.shift())
-    let persons = {}
+    let persons = []
 
     for (let i = 0; i < num; i++) {
-        const [baristaName, shift, ...coffee] = input.shift()
-        persons = {
-            Barista: baristaName,
-            shift,
-            drinks: coffee,
+        const [baristaName, shift, ...coffee] = input.shift().split(' ')
+        persons += {
+            [baristaName]: 'name',
+            [shift]: 'shift',
+            coffee,
         }
 
     }
@@ -45,5 +45,5 @@ solve(['4',
 'Change Shift / Alice / night',
  'Learn / Bob / Mocha',
 'Prepare / David / night / Espresso',
-'Closed'];
+'Closed']
 )
