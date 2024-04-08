@@ -2,7 +2,7 @@ function solve(input) {
     const num = Number(input.shift())
     let persons = {}
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < num; i++) {
         const [baristaName, shift, ...coffee] = input.shift()
         persons = {
             Barista: baristaName,
