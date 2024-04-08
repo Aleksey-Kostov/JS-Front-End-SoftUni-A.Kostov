@@ -3,18 +3,33 @@ function solve(input) {
     let persons = []
 
     for (let i = 0; i < num; i++) {
-        const [baristaName, shift, ...coffee] = input.shift().split(' ')
-        persons += {
-            [baristaName]: 'name',
-            [shift]: 'shift',
-            coffee,
+        const [baristaName, shift, coffee] = input.shift().split(' ')
+        const person = {
+           name: baristaName,
+            shift,
+            coffee: coffee.split(','),
         }
+
+        persons.push(person)
 
     }
 
     for (let i = 0; i < input.length; i++) {
-        command = input[i].shift().split(' / ').command[0]
+        const line = input[i].split(' / ')
+        const command = line[0]
+
         if (command === 'Prepare') {
+            let currentBarista = line[1]
+            let currentshift = line[2]
+            let currentCoffe = line[3]
+
+            for (obj of persons) {
+                if (obj.name === currentBarista && obj.shift === currentshift && obj.coffee.includes(currentCoffe) ) {
+                    console.log(`${currentBarista} has prepared a ${currentCoffe} for you!`);
+                } else {
+                    console.log(`${currentBarista} is not available to prepare a ${currentCoffe}.`);
+                }
+            }
 
         }else if (command === 'Change Shift'){
 
