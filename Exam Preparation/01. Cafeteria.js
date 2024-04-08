@@ -13,17 +13,17 @@ function solve(input) {
 
     for (let i = 0; i < input.length; i++) {
 
-        let [command, currentBarista, currentshift, currentCoffe] = input[i].split(' / ')
+        let [command, currentBarista, ...args] = input[i].split(' / ')
 
         let barista = persons[currentBarista]
 
         if (command === 'Prepare') {
           
 
-            if (barista.shift === currentshift && barista.coffee.includes(currentCoffe)) {
-                console.log(`${currentBarista} has prepared a ${currentCoffe} for you!`);
+            if (barista.shift === args[0] && barista.coffee.includes(args[1])) {
+                console.log(`${currentBarista} has prepared a ${args[1]} for you!`);
             } else {
-                console.log(`${currentBarista} is not available to prepare a ${currentCoffe}.`);5
+                console.log(`${currentBarista} is not available to prepare a ${args[1]}.`);
             }
 
             // for (obj in persons) {
@@ -38,17 +38,22 @@ function solve(input) {
 
         }else if (command === 'Change Shift'){
             
-            barista.shift = currentshift
-            console.log(`${currentBarista} has updated his shift to: ${currentshift}`);
+            barista.shift = args[0]
+            console.log(`${currentBarista} has updated his shift to: ${args[0]}`);
 
 
         }else if (command === 'Learn'){
-            if (barista.coffee.includes(currentCoffe)) {
-                console.log(`${currentBarista} knows how to make ${currentCoffe}.`)
+            if (barista.coffee.includes(args[0])) {
+                console.log(`${currentBarista} knows how to make ${args[0]}.`)
             } else {
-                console.log(`${currentBarista} has learned a new coffee type: ${currentCoffe}.`);
+                console.log(`${currentBarista} has learned a new coffee type: ${args[0]}.`);
+                barista.coffee.push(args[0])
             }
         }else if (command === 'Closed') {
+            for (obj in persons) {
+               console.log(`Barista: ${obj}, Shift: ${obj.shift}, Drinks: ${obj}`);
+
+            }
             return
         }
         
