@@ -74,20 +74,17 @@ function solve() {
             ulexpensesElement.appendChild(liElement)
 
             ulPreviwElement.innerHTML = ''
+            addButtonElement.removeAttribute('disabled')
 
         })
 
         deleteButtonElement.addEventListener('click', () => {
 
             ulexpensesElement.innerHTML = ''
-            addButtonElement.removeAttribute('disabled')
 
         })
 
-
-
     })
-
 
 } 
 
