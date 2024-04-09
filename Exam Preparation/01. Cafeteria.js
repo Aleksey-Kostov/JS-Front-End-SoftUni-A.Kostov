@@ -69,19 +69,19 @@ solve([
     )
 
 
-// solve(['4',
-// 'Alice day Espresso,Cappuccino',
-// 'Bob night Latte,Mocha',
-// 'Carol day Americano,Mocha',
-// 'David night Espresso',
-// 'Prepare / Alice / day / Espresso',
-// 'Change Shift / Bob / day',
-// 'Learn / Carol / Latte',
-// 'Prepare / Bob / night / Latte',
-// 'Learn / David / Cappuccino',
-// 'Prepare / Carol / day / Cappuccino',
-// 'Change Shift / Alice / night',
-//  'Learn / Bob / Mocha',
-// 'Prepare / David / night / Espresso',
-// 'Closed']
-// )
+solve(['4',
+'Alice day Espresso,Cappuccino',
+'Bob night Latte,Mocha',
+'Carol day Americano,Mocha',
+'David night Espresso',
+'Prepare / Alice / day / Espresso',
+'Change Shift / Bob / day',
+'Learn / Carol / Latte',
+'Prepare / Bob / night / Latte',
+'Learn / David / Cappuccino',
+'Prepare / Carol / day / Cappuccino',
+'Change Shift / Alice / night',
+ 'Learn / Bob / Mocha',
+'Prepare / David / night / Espresso',
+'Closed']
+)
