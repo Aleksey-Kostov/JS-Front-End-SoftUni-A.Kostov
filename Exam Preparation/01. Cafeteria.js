@@ -13,54 +13,45 @@ function solve(input) {
 
     for (let i = 0; i < input.length; i++) {
 
-        let [command, currentBarista, ...args] = input[i].split(' / ')
+        let [command, currentBarista, firstargs, secondArgs] = input[i].split(' / ')
 
         let barista = persons[currentBarista]
 
         if (command === 'Prepare') {
+            shift = firstargs
+            coffeeType = secondArgs
           
-
-            if (barista.shift === args[0] && barista.coffee.includes(args[1])) {
-                console.log(`${currentBarista} has prepared a ${args[1]} for you!`);
+            if (barista.shift === shift && barista.coffee.includes(coffeeType)) {
+                console.log(`${currentBarista} has prepared a ${coffeeType} for you!`);
             } else {
-                console.log(`${currentBarista} is not available to prepare a ${args[1]}.`);
+                console.log(`${currentBarista} is not available to prepare a ${coffeeType}.`);
             }
-
-            // for (obj in persons) {
-            //     if (obj.name === currentBarista && obj.shift === currentshift && obj.coffee.includes(currentCoffe)) {
-            //         console.log(`${currentBarista} has prepared a ${currentCoffe} for you!`);
-            //         break
-            //     }else {
-            //         console.log(`${currentBarista} is not available to prepare a ${currentCoffe}.`);
-            //         break
-            //     }
-            // }
 
         }else if (command === 'Change Shift'){
-            
-            barista.shift = args[0]
-            console.log(`${currentBarista} has updated his shift to: ${args[0]}`);
+            shift = firstargs
+            barista.shift = shift
 
+            console.log(`${currentBarista} has updated his shift to: ${shift}`);
 
         }else if (command === 'Learn'){
-            if (barista.coffee.includes(args[0])) {
-                console.log(`${currentBarista} knows how to make ${args[0]}.`)
+            coffeeType = firstargs
+
+            if (barista.coffee.includes(coffeeType)) {
+                console.log(`${currentBarista} knows how to make ${coffeeType}.`)
             } else {
-                console.log(`${currentBarista} has learned a new coffee type: ${args[0]}.`);
-                barista.coffee.push(args[0])
+                console.log(`${currentBarista} has learned a new coffee type: ${coffeeType}.`);
+                barista.coffee.push(coffeeType)
+
             }
         }else if (command === 'Closed') {
-            for (obj in persons) {
-               console.log(`Barista: ${obj}, Shift: ${obj.shift}, Drinks: ${obj}`);
+            for (const baristaName in persons) {
+               console.log(`Barista: ${baristaName}, Shift: ${persons[baristaName].shift}, Drinks: ${persons[baristaName].coffee.join(', ')}`);
 
             }
             return
         }
         
     }
-
-    console.log(persons);
-
 
 }
 
