@@ -24,12 +24,12 @@ const loadVacations = async () => {
         divElement.classList.add('container')
 
         const nameH2Element = document.createElement('h2')
-        const dateH3Element = document.createElement('h2')
-        const daysH3Element = document.createElement('h2')
+        const dateH3Element = document.createElement('h3')
+        const daysH3Element = document.createElement('h3')
 
         nameH2Element.textContent = vacation.name  // ne e sigurno
         dateH3Element.textContent = vacation.date
-        daysH3Element.textContent = vacation.days
+        daysH3Element.textContent= vacation.days
 
         const changeButtonElement = document.createElement('button')
         const doneButtonElement = document.createElement('button')
@@ -53,8 +53,8 @@ const loadVacations = async () => {
         changeButtonElement.addEventListener ('click', () => {
 
             nameInputElement.value = vacation.name
-            daysInputElement.value = vacation.date
-            dateInputElement.value = vacation.days
+            daysInputElement.value = vacation.days
+            dateInputElement.value = vacation.date
             formIdElement.setAttribute('data-id', vacation._id)
 
             divElement.remove()
@@ -99,20 +99,20 @@ addVacationElement.addEventListener('click', async () => {
 })
 
 editVacationElement.addEventListener('click', async () => {
-    const { name, date, days } = getInputData()
+    const { name, days, date } = getInputData()
 
-    const vacantionId = formElementId.getAttribute('data-id')
+    const vacantionId = formIdElement.getAttribute('data-id')
 
-    const response = await fetch(`${baseURL}/${vacantionId}`, {
+    const response = await fetch(`${baseUrl}/${vacantionId}`, {
         method: 'PUT',
         headers: {
             'content-type': 'application/json',
         },
         body: JSON.stringify({
-            _id: vacantionId,
             name,
-            date,
             days,
+            date,
+            _id: vacantionId,
         })
     });
 
@@ -134,9 +134,9 @@ editVacationElement.addEventListener('click', async () => {
 
 
 function getInputData() {
-    const name = foodInputElement.value;
-    const date = timeInputElement.value;
-    const days = caloriesInputElement.value;
+    const name = nameInputElement.value;
+    const date = dateInputElement.value;
+    const days = daysInputElement.value;
 
     return { name, date, days };
 }
