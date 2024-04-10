@@ -7,8 +7,6 @@ const editMealButtonElement = document.getElementById('edit-meal')
 const foodInputElement = document.getElementById('food')
 const timeInputElement = document.getElementById('time')
 const caloriesInputElement = document.getElementById('calories')
-const buttonChangeMeal = document.querySelector('.change-meal')
-const buttonDeleteMeal = document.querySelector('.delete-meal')
 const formElementId = document.querySelector('form')
 
 
@@ -53,7 +51,7 @@ const laodMeals = async () => {
         mealListElement.appendChild(divMainElement)
         
 
-        buttonChangeMeal.addEventListener('click', () => {
+        changeButton.addEventListener('click', () => {
 
             formElementId.setAttribute('data-id', meal._id)
 
@@ -61,20 +59,19 @@ const laodMeals = async () => {
             timeInputElement.value = meal.time
             caloriesInputElement.value = meal.calories
 
-            addMealButtonElement.removeAttribute('disable')
-            editMealButtonElement.setAttribute('disable', 'disable')
-
+            editMealButtonElement.removeAttribute('disabled')
+            addMealButtonElement.setAttribute('disabled', 'disabled')
+            
             divMainElement.remove()
+        })
 
-        buttonDeleteMeal.addEventListener('click', async () => {
+        deleteButton.addEventListener('click', async () => {
 
-            await fetch(`${baseUrl}/${meal._id}`, {
+            await fetch(`${baseURL}/${meal._id}`, {
                 method: 'DELETE'
             });
 
             divMainElement.remove()
-        })
-
         })
 
     }
@@ -84,6 +81,11 @@ buttonLoadMealsElement.addEventListener('click', laodMeals);
 
 addMealButtonElement.addEventListener ('click', async () => {
     const newMeal = getInputData()
+
+    const { food, calories, time } = getInputData();
+    if (food === '' || calories ==='' || time ==='') {
+        return
+    }
 
     const response = await fetch(baseURL, {
         method: 'POST',
@@ -108,7 +110,7 @@ editMealButtonElement.addEventListener('click', async () => {
 
     mealId = formElementId.getAttribute('data-id')
 
-    const response = await fetch(`${baseUrl}/${mealId}`, {
+    const response = await fetch(`${baseURL}/${mealId}`, {
         method: 'PUT',
         headers: {
             'content-type': 'application/json',
@@ -125,9 +127,11 @@ editMealButtonElement.addEventListener('click', async () => {
         return;
     }
 
-    editMealButtonElement.setAttribute('disable', 'disable')
+    editMealButtonElement.setAttribute('disabled', 'disabled')
 
-    addMealButtonElement.removeAttribute('disable')
+    addMealButtonElement.removeAttribute('disabled')
+
+    formElementId.removeAttribute('data-id')
 
     clearInputData()
 
