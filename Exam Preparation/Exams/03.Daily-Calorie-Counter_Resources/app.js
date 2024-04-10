@@ -108,7 +108,7 @@ addMealButtonElement.addEventListener ('click', async () => {
 editMealButtonElement.addEventListener('click', async () => {
     const { food, calories, time } = getInputData();
 
-    mealId = formElementId.getAttribute('data-id')
+    const mealId = formElementId.getAttribute('data-id')
 
     const response = await fetch(`${baseURL}/${mealId}`, {
         method: 'PUT',
