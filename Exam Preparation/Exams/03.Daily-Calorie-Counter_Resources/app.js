@@ -7,6 +7,9 @@ const editMealButtonElement = document.getElementById('edit-meal')
 const foodInputElement = document.getElementById('food')
 const timeInputElement = document.getElementById('time')
 const caloriesInputElement = document.getElementById('calories')
+const buttonChangeMeal = document.querySelector('.change-meal')
+const buttonDeleteMeal = document.querySelector('.delete-meal')
+const formElementId = document.querySelector('form')
 
 
 const laodMeals = async () => {
@@ -48,6 +51,31 @@ const laodMeals = async () => {
         divMainElement.appendChild(divElementButtons)
 
         mealListElement.appendChild(divMainElement)
+        
+
+        buttonChangeMeal.addEventListener('click', () => {
+
+            formElementId.setAttribute('data-id', meal._id)
+
+            foodInputElement.value = meal.food
+            timeInputElement.value = meal.time
+            caloriesInputElement.value = meal.calories
+
+            addMealButtonElement.removeAttribute('disable')
+            editMealButtonElement.setAttribute('disable', 'disable')
+
+            divMainElement.remove()
+
+        buttonDeleteMeal.addEventListener('click', async () => {
+
+            await fetch(`${baseUrl}/${meal._id}`, {
+                method: 'DELETE'
+            });
+
+            divMainElement.remove()
+        })
+
+        })
 
     }
 }
@@ -70,6 +98,38 @@ addMealButtonElement.addEventListener ('click', async () => {
     }
 
     clearInputData()
+    loadMeals()
+
+})
+
+editMealButtonElement.addEventListener('click', async () => {
+    const { food, calories, time } = getInputData();
+
+    mealId = formElementId.getAttribute('data-id')
+
+    const response = await fetch(`${baseUrl}/${mealId}`, {
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+            _id: mealId,
+            food,
+            calories,
+            time,
+        })
+    });
+
+    if (!response.ok) {
+        return;
+    }
+
+    editMealButtonElement.setAttribute('disable', 'disable')
+
+    addMealButtonElement.removeAttribute('disable')
+
+    clearInputData()
+
     loadMeals()
 
 })
