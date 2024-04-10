@@ -98,7 +98,8 @@ addMealButtonElement.addEventListener ('click', async () => {
     }
 
     clearInputData()
-    loadMeals()
+
+    laodMeals()
 
 })
 
@@ -130,7 +131,7 @@ editMealButtonElement.addEventListener('click', async () => {
 
     clearInputData()
 
-    loadMeals()
+    laodMeals()
 
 })
 
