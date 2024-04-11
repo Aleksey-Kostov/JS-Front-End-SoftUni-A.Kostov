@@ -1,10 +1,16 @@
 function solve(input) {
     const n = Number(input.shift())
-    persons = {}
+    persons = []
 
     for (let i = 0; i < n; i++) {
         const [name, personId, title, status, points] = input.shift().split(':')
-        persons[name] = [personId, title, status, points]
+        name = {
+            personId,
+            title,
+            status,
+            points
+        }
+        persons.push(name)
 
     }
 
@@ -15,15 +21,28 @@ function solve(input) {
 
         if (command === 'Add New') {
             const [assignee, taskId, title, status, estimatedPoints] = args
-            console.log(assignee);
-            console.log(taskId);
+            if (assignee in persons) {
+                persons[assignee] = [taskId, title, status, estimatedPoints]
+            } else {
+                console.log(`Assignee ${assignee} does not exist on the board!`);
+            }
 
         } else if (command === 'Change Status') {
             const [assignee, taskId, newStatus] = args
+            if (persons[assignee] in persons) {
+                if (persons[assignee][0] !== taskId) {
+                    console.log(`Task with ID ${taskId} does not exist for ${assignee}!`);
+                } else {
+                    persons[assignee][2] = newStatus
+                }
+            } else {
+                console.log(`Assignee ${assignee} does not exist on the board!`);
+            }
 
 
         } else if (command === 'Remove Task') {
             const [assignee, index] = args
+            if (assignee in persons && index < persons[assignee].length){}
 
         }
     }
