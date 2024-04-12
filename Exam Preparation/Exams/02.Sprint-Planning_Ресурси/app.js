@@ -14,6 +14,8 @@ function solve() {
 
     let counter = 0
 
+    deleteTaskBtnElement.setAttribute('disabled', 'disabled')
+
     createTaskBtnElement.addEventListener('click', () => {
 
         if (titleInputElement.value === ''
@@ -30,6 +32,9 @@ function solve() {
         articleElement.setAttribute('id', `task-${counter}`)
         articleElement.classList.add('task-card')
 
+        const currentSlectElement = selectElement.value // !!!!!!!!!
+
+
         const divCardLabel = document.createElement('div')
         if (selectElement.value === 'Feature') {
             divCardLabel.classList.add('task-card-label', 'feature')
@@ -38,6 +43,7 @@ function solve() {
         } else if (selectElement.value === 'Low Priority Bug') {
             divCardLabel.classList.add('task-card-label', 'low-priority')
             divCardLabel.textContent = 'Low Priority Bug ☉'
+
         } else {
             divCardLabel.classList.add('task-card-label', 'high-priority')
             divCardLabel.textContent = 'High Priority Bug ⚠'
@@ -52,11 +58,13 @@ function solve() {
         pDescriptionElement.textContent = descriptionInputElement.value
 
         const pointDivElement = document.createElement('div')
+        const currentPointElement = pointsInputElement.value // !!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         pointDivElement.classList.add('task-card-points')
         pointDivElement.textContent = `Estimated at ${pointsInputElement.value} pts`
 
         const assigneeDivElement = document.createElement('div')
         assigneeDivElement.classList.add('task-card-assignee')
+        const currentAssignee = assigneeInputElement.value
         assigneeDivElement.textContent = `Assigned to: ${assigneeInputElement.value}`
 
         const actionDivElement = document.createElement('div')
@@ -80,9 +88,9 @@ function solve() {
 
             titleInputElement.value = h3TitleElement.textContent
             descriptionInputElement.value = pDescriptionElement.textContent
-            pointsInputElement.options = pointDivElement.value
-            assigneeInputElement.value = assigneeDivElement.textContent
-            selectElement.option.value = divCardLabel.textContent
+            pointsInputElement.value = currentPointElement
+            assigneeInputElement.value = currentAssignee
+            selectElement.value = currentSlectElement
 
             createTaskBtnElement.setAttribute('disabled', 'disabled')
             deleteTaskBtnElement.removeAttribute('disabled')
@@ -96,13 +104,15 @@ function solve() {
             assigneeInputElement.setAttribute('disabled', 'disabled')
             selectElement.setAttribute('disabled', 'disabled')
 
+            deleteTaskBtnElement.removeAttribute('disabled')
+            createTaskBtnElement.setAttribute('disable', 'disable')
             
         })
 
     })
 
     deleteTaskBtnElement.addEventListener('click', () => {
-        sectionElement.innerHTML = ''
+        sectionElement.querySelector(`#task-${counter}`).remove()
         clearInput()
     })
 
@@ -113,6 +123,6 @@ function solve() {
         descriptionInputElement.value = ''
         pointsInputElement.value = ''
         assigneeInputElement.value = ''
-        sectionElement.value = ''
+        selectElement.value = ''
     }
 }
