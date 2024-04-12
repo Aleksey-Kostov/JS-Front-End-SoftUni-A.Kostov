@@ -35,7 +35,10 @@ function attachEvents() {
             const buttonMoveElement = document.createElement('button')
             const statusServer = board.status
 
+            const boardId = board._id
+
             if (statusServer ==='ToDo') {
+                toDoTaskElement.setAttribute('id' `${boardId}`)
                 buttonMoveElement.textContent = 'Move to In Progress'
                 buttonMoveElement.addEventListener('click', () => {
                     toDoTaskElement.innerHTML = ''
@@ -45,7 +48,7 @@ function attachEvents() {
             } else if (statusServer === 'In Progress') {
                 buttonMoveElement.textContent = 'Move to Code Review'
                 buttonMoveElement.addEventListener('click', () => {
-                    progressTaskElement.innerHTML = 'Move to Code Review'
+                    progressTaskElement.innerHTML = ''
                     reviewTaskElement.appendChild(liElement)
                     buttonMoveElement.textContent = 'Move to Done'
 
