@@ -1,4 +1,3 @@
-// TODO:
 function attachEvents() {
     const baseURL = 'http://localhost:3030/jsonstore/tasks'
 
@@ -48,7 +47,6 @@ function attachEvents() {
                 buttonMoveElement.textContent = 'Move to Done'
 
             }else {
-                liElement.id = `${boardId}`
                 buttonMoveElement.textContent = 'Close'
             }
 
@@ -72,77 +70,31 @@ function attachEvents() {
             buttonMoveElement.addEventListener('click', async () => {
                 if (buttonMoveElement.textContent === 'Move to In Progress') {
                     progressTaskElement.appendChild(liElement)
-                    document.getElementById(`${boardId}`).remove()
+                    document.getElementById(`${li_id}`).remove()
                     buttonMoveElement.textContent = 'Move to Code Review'
                     let status = 'In Progress'
-                    sendPatch(status, boardId)
+                    sendPatch(status, li_id)
 
                 } else if (buttonMoveElement.textContent === 'Move to Code Review') {
                     reviewTaskElement.appendChild(liElement)
-                    document.getElementById(`${boardId}`).remove()
+                    document.getElementById(`${li_id}`).remove()
                     buttonMoveElement.textContent = 'Move to Done'
                     let status = 'Code Review'
-                    sendPatch(status, boardId)
+                    sendPatch(status, li_id)
 
                 } else if (buttonMoveElement.textContent === 'Move to Done') {
                     doneTaskElement.appendChild(liElement)
-                    document.getElementById(`${boardId}`).remove()
+                    document.getElementById(`${li_id}`).remove()
                     buttonMoveElement.textContent = 'Close'
                     let status = 'Done'
-                    sendPatch(status, boardId)
-
-                } else {
-                    document.getElementById(`${boardId}`).remove()
-                    sendDelete(boardId)
+                    sendPatch(status, li_id)
 
                 }
             })
-
         }
 
     }
     buttonLoadElement.addEventListener('click', LoadBoard)
-
-    buttonCreateElement.addEventListener('click', async () => {
-        const liElement = document.createElement('li')
-        liElement.classList.add('task')
-
-        const h3Element = document.createElement('h3')
-        h3Element.textContent = inputTitelElement.value
-
-        const pElement = document.createElement('p')
-        pElement.textContent = textAreaDescriptionElement.value
-
-        const buttonMoveElement = document.createElement('button')
-
-        const status = 'ToDo'
-        const description = textAreaDescriptionElement.value
-        buttonMoveElement.textContent = 'Move to In Progress'
-        liElement.appendChild(h3Element)
-        liElement.appendChild(pElement)
-        liElement.appendChild(buttonMoveElement)
-        toDoTaskElement.appendChild(liElement)
-
-        const response = await fetch(baseURL, {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-            },
-            body: JSON.stringify({
-                status,
-                description,
-            }),
-        });
-    
-        if (!response.ok) {
-            return;
-        }
-
-        textAreaDescriptionElement.value = ''
-        inputTitelElement.value = ''
-
-        // const boardId = board._id
-    })
 
     const sendPatch = async (status, id) => {
         const response = await fetch(`${baseURL}/${id}`, {
@@ -153,12 +105,6 @@ function attachEvents() {
             body: JSON.stringify({
                 status
             })
-        });
-    }
-
-    const sendDelete = async (id) => {
-        await fetch(`${baseURL}/${id}`, {
-            method: 'DELETE'
         });
     }
 
