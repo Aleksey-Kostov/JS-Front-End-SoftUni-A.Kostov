@@ -98,12 +98,17 @@ function attachEvents() {
                 }
             })
 
+            
+
         }
 
     }
     buttonLoadElement.addEventListener('click', LoadBoard)
 
     buttonCreateElement.addEventListener('click', async () => {
+        if (textAreaDescriptionElement.value === '' || inputTitelElement.value === '') {
+            return
+        }
         const liElement = document.createElement('li')
         liElement.classList.add('task')
 
@@ -140,8 +145,10 @@ function attachEvents() {
 
         textAreaDescriptionElement.value = ''
         inputTitelElement.value = ''
+        LoadBoard()
 
-        // const boardId = board._id
+        
+
     })
 
     const sendPatch = async (status, id) => {
@@ -154,12 +161,14 @@ function attachEvents() {
                 status
             })
         });
+        LoadBoard()
     }
 
     const sendDelete = async (id) => {
         await fetch(`${baseURL}/${id}`, {
             method: 'DELETE'
         });
+        LoadBoard()
     }
 
     
