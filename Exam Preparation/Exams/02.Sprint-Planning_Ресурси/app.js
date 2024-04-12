@@ -11,8 +11,10 @@ function solve() {
 
     const createTaskBtnElement = document.getElementById('create-task-btn')
     const deleteTaskBtnElement = document.getElementById('delete-task-btn')
+    const totalPointsElement = document.getElementById('total-sprint-points')
 
     let counter = 0
+    let totalPoints = 0
 
     deleteTaskBtnElement.setAttribute('disabled', 'disabled')
 
@@ -26,13 +28,15 @@ function solve() {
         }
 
         counter += 1
+        totalPoints += Number(pointsInputElement.value)
+        totalPointsElement.textContent = `Total Points ${totalPoints}pts`
 
         const articleElement = document.createElement('article')
         
         articleElement.setAttribute('id', `task-${counter}`)
         articleElement.classList.add('task-card')
 
-        const currentSlectElement = selectElement.value // !!!!!!!!!
+        const currentSlectElement = selectElement.value 
 
 
         const divCardLabel = document.createElement('div')
@@ -58,9 +62,10 @@ function solve() {
         pDescriptionElement.textContent = descriptionInputElement.value
 
         const pointDivElement = document.createElement('div')
-        const currentPointElement = pointsInputElement.value // !!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+        const currentPointElement = pointsInputElement.value // !!!!!!!!!!!!!!!!!!!!!!!!!!!!
         pointDivElement.classList.add('task-card-points')
         pointDivElement.textContent = `Estimated at ${pointsInputElement.value} pts`
+        pointsInputElement.setAttribute('value', currentPointElement) //!!!!!!!!!!!!!!!!!!!!!
 
         const assigneeDivElement = document.createElement('div')
         assigneeDivElement.classList.add('task-card-assignee')
@@ -91,12 +96,14 @@ function solve() {
             pointsInputElement.value = currentPointElement
             assigneeInputElement.value = currentAssignee
             selectElement.value = currentSlectElement
+            
 
             createTaskBtnElement.setAttribute('disabled', 'disabled')
             deleteTaskBtnElement.removeAttribute('disabled')
 
             const inputTaskId = document.getElementById('task-id')
             inputTaskId.setAttribute('value', `task-${counter}`)
+            const currId = articleElement.getAttribute('id') //!!!!!!!!!!!!!!!!
 
             titleInputElement.setAttribute('disabled', 'disabled')
             descriptionInputElement.setAttribute('disabled', 'disabled')
@@ -106,15 +113,33 @@ function solve() {
 
             deleteTaskBtnElement.removeAttribute('disabled')
             createTaskBtnElement.setAttribute('disable', 'disable')
+
+        deleteTaskBtnElement.addEventListener('click', () => {
+
+            document.querySelector(`#${currId}`).remove()
+
+            totalPoints -= Number(pointsInputElement.getAttribute('value'))
+            totalPointsElement.textContent = `Total Points ${totalPoints}pts`
+            pointsInputElement.removeAttribute('value')
+
+            deleteTaskBtnElement.setAttribute('disabled', 'disabled')
+            createTaskBtnElement.removeAttribute('disabled')
+
+            titleInputElement.removeAttribute('disabled')
+            descriptionInputElement.removeAttribute('disabled')
+            pointsInputElement.removeAttribute('disabled')
+            assigneeInputElement.removeAttribute('disabled')
+            selectElement.removeAttribute('disabled')
+
+
+            clearInput()
+        })
             
         })
 
     })
 
-    deleteTaskBtnElement.addEventListener('click', () => {
-        sectionElement.querySelector(`#task-${counter}`).remove()
-        clearInput()
-    })
+   
 
 
 
